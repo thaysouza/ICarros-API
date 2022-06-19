@@ -9,28 +9,49 @@
 </head>
 
 <style>
-
-    .contant-class{
+    
+    .directionContainer{
         display: flex;
+        flex-direction: row;
+    }
+    #form_data{
+        width: 20%;
+    }
+
+    .contant_class{
+        width: 60%;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        text-align: center;
+    }
+
+    #brands {
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
 
 </style>
 <body>
 
-    <div class="contant-class">
-        <div>
+    <div class="directionContainer">
 
-        </div>
-        <form action="" id="form-data">
-            <input type="text" id="car_name">
-            <div id="inputs">
-            </div>
-            <input type="submit" value="Buscar">
-        </form>
+    <form id="form_data">
+        <input type="text" id="car_name" />
+        <div id="inputs"></div>
+        <input type="submit" value="buscar" />
+      </form>
 
-        <div id="result">
+    <div class="contant_class">
+  
+        <div id="result"></div>
 
-        </div>
+        <div id="brands"></div>
+      </div>
+  
+     
+
     </div>
 
 </body>

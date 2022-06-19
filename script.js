@@ -1,81 +1,100 @@
-let result = document.querySelector('#result');
+let result = document.querySelector("#result");
 
-let formData = document.querySelector('#form-data');
+let formData = document.querySelector("#form_data");
 
-let allInputs = document.querySelector('#inputs');
+let allInputs = document.querySelector("#inputs");
 
+let brands = document.querySelector("#brands");
 
-function getAllCars(){
-    fetch("")
-    .then(res => res.json())
-    result.innerHTML = `${response.map(
-        (elemento,index) => 
+let loader = `<div><h1>Carregando...</h1></div>`;
+
+function getAllCars() {
+  result.innerHTML = loader;
+  fetch("https://e-carros-api.herokuapp.com/adverts")
+    .then((res) => res.json())
+    .then((response) => {
+      result.innerHTML = `${response
+        .map(
+          (elemento, index) =>
+            `
+          <div key="${index}"> 
+            <h6> ${elemento.model} </h6>
+            <img src="${elemento.photos[0]}" width="300px" heigth="auto"/>
+          </div>
         `
-        <div key="${index}">
-        <h6> ${elemento.model} </h6>
-        <img src="${elemento.photod[0]}" width="300px" height="auto" />
-        `
-)
-.join("")}`
+        )
+        .join("")}`;
+    });
 }
 
-getAllCars()
+getAllCars();
 
-function getColors(){
-    fetch('https://e-carros-api.herokuapp.com/colors')
-    .then(res => res.json())
-    .then(( result )=> {
-        allInputs.innerHTML = `${
+function getBrands() {
+  brands.innerHTML = loader;
+  fetch("https://e-carros-api.herokuapp.com/brands")
+    .then((res) => res.json())
+    .then((response) => {
+      brands.innerHTML = `${response
+        .map(
+          (element, index) =>
+            `
+            <center key="${index}">
+              <img src="${element.logo}"  width="80px" heigth="auto"/>
+              <p> ${element.name} </p>
+            </center>
+          `
+        )
+        .join("")}`;
+    });
+}
 
-            result.map( (el, index) => 
-                `<input type="radio" key="${index} value="${el}" />
-                 <label for="${el}"> ${el} </label>
-                 <br />
-                `
-            ).join('')}`;
-        
-        
+getBrands();
 
-    } );
+function getColors() {
+  fetch("https://e-carros-api.herokuapp.com/colors")
+    .then((res) => res.json())
+    .then((result) => {
+      allInputs.innerHTML = `${result
+        .map(
+          (el, index) =>
+            ` <input key="${index}" type="radio" value="${el}">
+        <label for="${el}"> ${el} </label>  
+        <br />      
+      `
+        )
+        .join("")}`;
+    });
 }
 
 getColors();
 
 formData.addEventListener("submit", (e) => {
-    e.preventDefault();
+  e.preventDefault();
+  result.innerHTML = loader;
 
-    let colors = document.querySelectorAll('input[value][type="radio"].checked').Nodelist.value;
+  let colors = document.querySelectorAll('input[value][type="radio"]:checked');
 
-    let colorSelected = [];
-   
-    colors.forEach((Element) => {
-        colorSelected.push(Element.value);
-    });
+  let colorsSelected = [];
 
+  colors.forEach((element) => {
+    colorsSelected.push(element.value);
+  });
 
-    fetch(
-        `ttps://e-carros-api.herokuapp.com/adverts?${
-            colorSelected.length > 0 && `color=${colorSelected}`
-        }`
-    )
-    .then((ren) => res.json())
+  fetch(
+    `https://e-carros-api.herokuapp.com/adverts?${
+      colorsSelected.length > 0 && `color=${colorsSelected}`
+    }`
+  )
+    .then((res) => res.json())
     .then((response) => {
-        result.innerHTML = `${response.map(
-            (elemento,index) => 
-            `
-            <div key="${index}">
+      result.innerHTML = `${response.map(
+        (elemento, index) =>
+          `
+          <div key="${index}"> 
             <h6> ${elemento.model} </h6>
-            <img src="${elemento.photod[0]}" width="300px" height="auto" />
-            `
-    )
-.join("")}`
-    })
-
-
-
-
-
-
-    
-})
-
+            <img src="${elemento.photos[0]}" width="400px" heigth="auto"/>
+          </div>
+        `
+      )}`;
+    });
+});
